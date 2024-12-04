@@ -86,4 +86,6 @@ public class UsuarioController {
                 @PathVariable String uuid){
                 this.service.excluirUUID(uuid);
         }
+
+
 }
