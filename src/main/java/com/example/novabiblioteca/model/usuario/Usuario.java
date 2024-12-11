@@ -46,7 +46,7 @@ public class Usuario {
     private String senha;
 
     @NonNull
-    @Column(nullable = false, length = 11, unique = true)
+    @Column(nullable = false, length = 15, unique = true)
     @Schema(description = "CPF do usuario", example = "999.999.999-99")
     private String cpf;
 

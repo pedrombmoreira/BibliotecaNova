@@ -33,13 +33,11 @@ public class Emprestimo {
     @NonNull
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "IDlivro", nullable = false)
-    @Schema(description = "Livro que foi retirado", example = "Coraline")
     private Livro livro;
 
     @NonNull
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "IDuser", nullable = false)
-    @Schema(description = "Usuário que fez o empréstimo", example = "Paulo")
     private Usuario usuario;
 
     @NonNull
