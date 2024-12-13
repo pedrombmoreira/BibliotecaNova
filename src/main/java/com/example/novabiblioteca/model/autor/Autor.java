@@ -19,7 +19,7 @@ public class Autor {
     private Long IDaut;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "nomeaut")
     @Schema(description = "Nome de um autor", example = "Neil Gaiman")
     private String nomeAut;
 

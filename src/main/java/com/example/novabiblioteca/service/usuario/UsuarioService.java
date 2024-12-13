@@ -11,13 +11,20 @@ import java.util.UUID;
 
 @Service
 public class UsuarioService {
-    private UsuarioRepository repository;
+    private final UsuarioRepository repository;
+
     public UsuarioService(UsuarioRepository repository){this.repository = repository; }
-    public void salvar(Usuario usuario) { this.repository.save(usuario);}
+
+    public void salvar(Usuario usuario) {
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+        this.repository.save(usuario);}
+
     public List<Usuario> listar(){ return this.repository.findAll();}
+
     public Usuario findByUUID(String uuid){
         UUID uuidformatado = UUID.fromString(uuid);
         return this.repository.findUsuarioByUuid(uuidformatado);}
+
     public void atualizarUUID(Usuario usuario){
         Usuario u = this.repository.findUsuarioByUuid(usuario.getUuid());
         u.setNomeUser(usuario.getNomeUser());
@@ -30,10 +37,7 @@ public class UsuarioService {
     }
     public void excluirUUID(String uuid){ this.repository.deleteUsuarioByUuid(UUID.fromString(uuid));}
 
-    public void cadastrar(Usuario usuario){
-        usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
-        this.repository.save(usuario);
-    }
+
 
     public DadosUsuario findUsuario(Long id){
         Usuario usuario = this.repository.getReferenceById(id);

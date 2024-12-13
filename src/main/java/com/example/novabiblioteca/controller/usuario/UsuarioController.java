@@ -1,5 +1,6 @@
 package com.example.novabiblioteca.controller.usuario;
 
+import com.example.novabiblioteca.model.usuario.DadosUsuario;
 import com.example.novabiblioteca.model.usuario.Usuario;
 import com.example.novabiblioteca.service.usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,6 +62,16 @@ public class UsuarioController {
                 return ResponseEntity.created(uri).body(usuario);
         }
 
+        @GetMapping("/{id}")
+        public DadosUsuario findById(@PathVariable Long id){
+                return this.service.findUsuario(id);
+        }
+
+        @GetMapping
+        public List<DadosUsuario> findAll(){
+                return this.service.findAllUsuarios();
+        }
+
         @Operation(summary = "Atualizar usuário", description = "Atualiza as informações de um usuário existente.")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "204", description = "Usuário atualizado com sucesso",
@@ -79,7 +90,7 @@ public class UsuarioController {
                 @ApiResponse(responseCode = "204", description = "Usuário deletado com sucesso"),
                 @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
         })
-        @DeleteMapping("{uuid}")
+        @DeleteMapping("deletar/{uuid}")
         @Transactional
         public void deletar(
                 @Parameter(description = "UUID do usuário a ser deletado", required = true)

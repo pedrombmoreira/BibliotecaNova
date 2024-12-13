@@ -1,6 +1,7 @@
 package com.example.novabiblioteca.controller.biblioteca;
 
 import com.example.novabiblioteca.model.emprestimo.Emprestimo;
+import com.example.novabiblioteca.model.livro.Livro;
 import com.example.novabiblioteca.service.biblioteca.EmprestimoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,7 +14,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -51,6 +54,11 @@ public class EmprestimoController {
     @Transactional
     @PostMapping()
     public void salvar(@RequestBody @Valid Emprestimo emprestimo){ this.service.salvar(emprestimo);}
+    public ResponseEntity<Emprestimo> salvar(@RequestBody @Valid Emprestimo emprestimo, UriComponentsBuilder uriBuilder) {
+        this.service.salvar(emprestimo);
+        URI uri = uriBuilder.path("emprestimo/{uuid}").buildAndExpand(emprestimo.getUuid()).toUri();
+        return ResponseEntity.created(uri).body(emprestimo);
+    }
 
     @Operation(summary = "Atualizar empréstimo", description = "Atualiza as informações de um empréstimo existente.")
     @ApiResponses(value = {
@@ -69,7 +77,7 @@ public class EmprestimoController {
             @ApiResponse(responseCode = "204", description = "Empréstimo deletado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Empréstimo não encontrado")
     })
-    @DeleteMapping("{uuid}")
+    @DeleteMapping("deletar/{uuid}")
     public void deletar(
             @Parameter(description = "UUID do empréstimo a ser deletado", required = true)
             @PathVariable String uuid){

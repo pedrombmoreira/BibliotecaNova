@@ -19,7 +19,7 @@ public class Categoria {
     private Long IDcat;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, name = "nomecat")
     @Schema(description = "Nome de uma categoria", example = "Mistério")
     private String nomeCat;
 }

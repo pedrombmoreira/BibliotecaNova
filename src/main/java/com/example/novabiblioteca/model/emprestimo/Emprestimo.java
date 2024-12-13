@@ -31,12 +31,12 @@ public class Emprestimo {
     private UUID uuid;
 
     @NonNull
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "IDlivro", nullable = false)
     private Livro livro;
 
     @NonNull
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "IDuser", nullable = false)
     private Usuario usuario;
 

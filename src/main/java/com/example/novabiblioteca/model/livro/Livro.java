@@ -34,13 +34,13 @@ public class Livro {
     private String titulo;
 
     @NonNull
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
     @JoinColumn (name = "IDaut", nullable = false)
     @Schema(description = "Autor do livro", example = "Neil Gaiman")
     private Autor autor;
 
     @NonNull
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @ManyToOne (fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "IDcat", nullable = false)
     @Schema(description = "Categoria do livro", example = "Mistério")
     private Categoria categoria;

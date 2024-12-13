@@ -14,7 +14,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -50,7 +52,11 @@ public class LivroController {
     })
     @Transactional
     @PostMapping()
-    public void salvar(@RequestBody @Valid Livro livro){ this.service.salvar(livro);}
+    public ResponseEntity<Livro> salvar(@RequestBody @Valid Livro livro, UriComponentsBuilder uriBuilder) {
+        this.service.salvar(livro);
+        URI uri = uriBuilder.path("livro/{uuid}").buildAndExpand(livro.getUuid()).toUri();
+        return ResponseEntity.created(uri).body(livro);
+    }
 
     @Operation(summary = "Atualizar livro", description = "Atualiza as informações de um livro existente.")
     @ApiResponses(value = {
@@ -69,7 +75,8 @@ public class LivroController {
             @ApiResponse(responseCode = "204", description = "Livro deletado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Livro não encontrado")
     })
-    @DeleteMapping("{uuid}")
+    @Transactional
+    @DeleteMapping("deletar/{uuid}")
     public void deletar(
             @Parameter(description = "UUID do livro a ser deletado", required = true)
             @PathVariable String uuid){
